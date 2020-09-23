@@ -1,0 +1,49 @@
+#include <bits/stdc++.h>
+#define f(i,a,b) for(int i=a;i<b;i++)
+#define ll long long
+#define readv(v,a,b) for(int i=a;i<b;i++) cin>>v[i]
+#define printv(v,a,b) for(int i=a;i<b;i++) cout<<v[i]<<" "
+#define ull unsigned long long
+#define F(i,a,b) for(int i=a;i>=b;i--)
+#define vc(n) vector<int>vc(n,0)
+#define sortall(v) sort(v.begin(),v.end())
+using namespace std;
+
+int main()
+{
+      ios_base::sync_with_stdio(false);
+      cin.tie(NULL);
+	#ifndef ONLINE_JUDGE
+	freopen("input.txt","r",stdin);
+	freopen("o1.txt","w",stdout);
+	#endif
+	int t;
+	cin>>t;
+	while(t--)
+	{
+		int n,c;
+		cin>>n>>c;
+		vector<int>stalls(n,0);
+        readv(stalls,0,n);
+        sortall(stalls);
+        int low=1,high=stalls[n-1]-stalls[0],prev_loc=0,ans=1;
+        while(low<=high)
+        {
+          int mid=low+(high-low)/2;
+          int cowleft=c-1;prev_loc=0;
+          f(i,1,n)
+          {
+          	if(stalls[i]-stalls[prev_loc]>=mid)
+          	{
+          		prev_loc=i;cowleft--;
+          	}
+          	if(cowleft==0) break;
+          }
+          if(cowleft==0) low=mid+1,ans=mid;
+          else high=mid-1;
+        }
+        cout<<ans<<'\n';
+
+    }
+	return 0;
+}
