@@ -1,0 +1,35 @@
+#include <bits/stdc++.h>
+
+#define ll long long
+#define f(i,a,b) for(ll i=a;i<b;i++)
+#define readv(v,a,b) for(int i=a;i<b;i++) cin>>v[i]
+#define printv(v,a,b) for(int i=a;i<b;i++) cout<<v[i]<<" "
+#define ull unsigned long long
+#define F(i,a,b) for(int i=a;i>=b;i--)
+#define pi 3.14159265359
+#define PB push_back
+#define vi vector<int>vc(n,0)
+#define sortall(v) sort(v.begin(),v.end())
+using namespace std;
+
+unordered_map<long int,long int>mp;
+long int maxxx(long int n)
+{
+	if(n==0||n==1) return n;
+	if(mp.count(n)) return mp[n];
+	mp[n]=max(n,(maxxx(n/2)+maxxx(n/3)+maxxx(n/4)));
+	return mp[n];
+}
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	long int n;
+	while(cin>>n){
+   cout<<maxxx(n)<<'\n';
+    
+  }
+	
+     
+	return 0;
+}
