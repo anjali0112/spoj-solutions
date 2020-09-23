@@ -1,0 +1,89 @@
+#include <bits/stdc++.h>
+#define f(i,a,b) for(int i=a;i<b;i++)
+#define ll long long
+#define readv(v,a,b) for(int i=a;i<b;i++) cin>>v[i]
+#define printv(v,a,b) for(int i=a;i<b;i++) cout<<v[i]<<" "
+#define ull unsigned long long
+#define F(i,a,b) for(int i=a;i>=b;i--)
+#define vc(n) vector<int>vc(n,0)
+#define sortall(v) sort(v.begin(),v.end())
+using namespace std;
+struct si
+{
+  int lsubm,rsubm,s,msum;
+};
+  int size;
+  si result;
+  int v[50002];
+  si range[4*50002];
+ void init(int n) {
+  size=n;
+  }
+  
+ void fil(int z,int l,int r)
+ {
+  if(r==l)
+  {
+    range[z].s=v[l];
+    range[z].lsubm=v[l];
+    range[z].rsubm=v[l];
+    range[z].msum=v[l];
+    return;
+  }
+  int mid=(l+r)/2;  
+   fil(2*z+1,l,mid);
+   fil(2*z+2,mid+1,r);
+   range[z].s=range[2*z+1].s+range[2*z+2].s;
+   range[z].lsubm=max(range[2*z+1].lsubm,range[2*z+1].s+range[2*z+2].lsubm);
+   range[z].rsubm=max(range[2*z+2].rsubm,range[2*z+2].s+range[2*z+1].rsubm);
+   range[z].msum=max({range[2*z+2].msum,range[2*z+1].msum,range[z].rsubm,range[z].lsubm,range[2*z+1].rsubm+range[2*z+2].lsubm});
+   
+ }
+ 
+ si maxx(int l,int r,int next,int lc,int rc,char sub)
+ {    
+result.s=result.rsubm=result.lsubm=result.msum=-15008;
+   if(lc>r ||rc<l){ return result;}//current seg is fully outside the given seg
+       
+       if(l<=lc && rc<=r) {return range[next];}//given segment contains  the current seg
+      
+       int mid=(lc+rc)/2;
+     si ls=maxx(l,r,2*next+1,lc,mid,'l');
+     si rs= maxx(l,r,2*next+2,mid+1,rc,'r');
+      result.s=ls.s+rs.s;
+      result.lsubm=max(ls.lsubm,ls.s+rs.lsubm);
+       result.rsubm=max(rs.rsubm,rs.s+ls.rsubm);
+   result.msum=max({rs.msum,ls.msum,result.rsubm,result.lsubm,ls.rsubm+rs.lsubm});
+   return result;
+
+ }
+ 
+
+int main()
+{
+      ios_base::sync_with_stdio(false);
+      cin.tie(NULL);
+  #ifndef ONLINE_JUDGE
+  freopen("input.txt","r",stdin);
+  freopen("o1.txt","w",stdout);
+  #endif
+  clock_t time_req; 
+  time_req = clock(); 
+  int n,m;
+    cin>>n;
+  init(n);  
+    readv(v,0,n);
+    fil(0,0,n-1);
+    cin>>m;
+    
+    while(m--)
+    {
+      int x,y;
+      cin>>x>>y;
+      cout<<maxx(x-1,y-1,0,0,n-1,'c').msum<<'\n';
+    }
+     time_req = clock() - time_req; 
+   /* cout << "Processor time taken in pow function: "
+        << (float)time_req/CLOCKS_PER_SEC << " seconds" << endl; */
+  return 0;
+}
