@@ -1,0 +1,41 @@
+#include <bits/stdc++.h>
+#define f(i,a,b) for(int i=a;i<b;i++)
+#define ll long long
+#define readv(v,a,b) for(int i=a;i<b;i++) cin>>v[i]
+#define printv(v,a,b) for(int i=a;i<b;i++) cout<<v[i]<<" "
+#define ull unsigned long long
+#define F(i,a,b) for(int i=a;i>=b;i--)
+#define pi 3.14159265359
+#define vi vector<int>vc(n,0)
+#define sortall(v) sort(v.begin(),v.end())
+using namespace std;
+
+int main()
+{
+      ios_base::sync_with_stdio(false);
+      cin.tie(NULL);
+	#ifndef ONLINE_JUDGE
+	freopen("input.txt","r",stdin);
+	freopen("o1.txt","w",stdout);
+	#endif
+	int t;
+	//cin>>t;
+	while(1)
+	{
+		string s;
+		cin>>s;
+		if(s=="0") break;
+		vector<ull>v(s.size(),0);
+        v[0]=1;
+        s[0]-'0'<=2&&s[1]!='0'?v[1]=2:v[1]=1;
+        f(i,2,s.size())
+        {
+        	if(s[i-1]-'0'>2||s[i-1]-'0'==0) v[i]=v[i-1];
+        	else if(s[i]-'0'==0) v[i]=v[i-2];
+        	else v[i]=v[i-1]+v[i-2];
+        }
+        cout<<v[s.size()-1]<<'\n';
+
+	}
+	return 0;
+}
